@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-cream: #f7f0e3;
+    --color-ink: #1c1208;
+    --color-rouge: #c0392b;
+    --color-safran: #e67e22;
+    --color-vert: #1e6b3c;
+    --color-azur: #1a5276;
+    --color-blanc: #fffdf8;
+    --color-muted: #6b5d4f;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchored sections so they clear the sticky navbar */
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  blockquote {
+    @apply font-display;
+  }
+
+  ::selection {
+    background-color: rgba(192, 57, 43, 0.18);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* Reusable button styles built from scratch (no shadcn) */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-small font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rouge focus-visible:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-rouge text-blanc hover:bg-[#a93226] hover:shadow-card;
+  }
+
+  .btn-secondary {
+    @apply btn border-2 border-rouge bg-transparent text-rouge hover:bg-rouge hover:text-blanc;
+  }
+
+  .btn-whatsapp {
+    @apply btn bg-vert text-blanc hover:bg-[#185730] hover:shadow-card;
+  }
+
+  .btn-whatsapp-outline {
+    @apply btn border-2 border-rouge bg-transparent text-rouge hover:bg-rouge hover:text-blanc;
+  }
+}
+
+@layer utilities {
+  /* Respect users who prefer reduced motion at the CSS level too */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
