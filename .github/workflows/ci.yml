@@ -63,8 +63,8 @@ jobs:
       - name: Vérification du build
         run: |
           if [ -d ".next" ]; then
-            echo "✅ Build réussi — dossier .next présent"
+            echo "Build reussi, dossier .next present"
           else
-            echo "❌ Build échoué — dossier .next absent"
+            echo "Build echoue, dossier .next absent"
             exit 1
           fi

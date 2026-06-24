@@ -6,7 +6,7 @@
 type ClassValue = string | number | null | false | undefined;
 
 /**
- * cn() — conditionally join class names into a single string.
+ * cn(), join class names into a single string conditionally.
  * Usage: cn("base", isActive && "active", undefined) => "base active"
  */
 export function cn(...classes: ClassValue[]): string {

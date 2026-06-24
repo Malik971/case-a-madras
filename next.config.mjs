@@ -1,18 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "picsum.photos",
-      },
-      {
-        protocol: "https",
-        hostname: "fastly.picsum.photos",
-      },
-    ],
-  },
+  // Toutes les images sont locales (dans /public/images) ou des placeholders CSS.
+  // Aucune source distante n'est autorisee.
 };
 
 export default nextConfig;

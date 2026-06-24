@@ -10,7 +10,7 @@ interface SectionRevealProps extends Omit<HTMLMotionProps<"div">, "ref"> {
 }
 
 /**
- * SectionReveal — Framer Motion wrapper that fades + lifts content into view
+ * SectionReveal, Framer Motion wrapper that fades and lifts content into view
  * once, when it enters the viewport. Respects prefers-reduced-motion.
  */
 export default function SectionReveal({
@@ -32,7 +32,7 @@ export default function SectionReveal({
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay }}

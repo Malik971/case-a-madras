@@ -1,19 +1,20 @@
+import Placeholder from "@/components/ui/Placeholder";
 import SectionReveal from "@/components/ui/SectionReveal";
 import { madrasPage } from "@/data/content";
 
 /**
- * MadrasInfo — "Origines" section of the madras page: editorial text on one
- * side, a set of decorative madras color swatches on the other.
+ * MadrasInfo, the "Origines" section of the madras page:
+ * editorial text on the left, a fabric image (placeholder) on the right.
  */
 export default function MadrasInfo() {
-  const { origines, swatches } = madrasPage;
+  const { origines } = madrasPage;
 
   return (
-    <section className="py-14 sm:py-16">
-      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-14 lg:px-8">
+    <section className="py-20 lg:py-28">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
         <SectionReveal>
-          <h2 className="text-title text-ink">{origines.h2}</h2>
-          <div className="mt-5 space-y-4 text-body text-muted">
+          <h2 className="text-title text-bois">{origines.h2}</h2>
+          <div className="mt-5 space-y-4 text-body text-bois/75">
             {origines.paragraphs.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
@@ -21,23 +22,10 @@ export default function MadrasInfo() {
         </SectionReveal>
 
         <SectionReveal delay={0.1}>
-          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
-            {swatches.map((swatch) => (
-              <li key={swatch.name} className="overflow-hidden rounded-2xl bg-blanc shadow-card">
-                <div
-                  className="h-20 w-full"
-                  style={{
-                    backgroundImage: `repeating-linear-gradient(45deg, ${swatch.colors[0]} 0 12px, ${swatch.colors[1]} 12px 24px)`,
-                  }}
-                  aria-hidden="true"
-                />
-                <div className="px-3 py-3">
-                  <p className="text-small font-semibold text-ink">{swatch.name}</p>
-                  <p className="text-xs italic text-muted">{swatch.note}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+          <div className="relative aspect-[4/3] overflow-hidden rounded-xl shadow-sm">
+            {/* TODO: photo réelle d'un tissu madras */}
+            <Placeholder label={origines.imageCaption} kind="image" />
+          </div>
         </SectionReveal>
       </div>
     </section>

@@ -1,90 +1,70 @@
 # La Case à Madras
 
-Site vitrine de **La Case à Madras** — boutique artisanale créole au Village
-Artisanal des Galbas, Sainte-Anne, Guadeloupe. Spécialité : vêtements enfants
-en madras cousus main, depuis 1995.
+Site vitrine de **La Case à Madras**, boutique artisanale créole au Village
+Artisanal des Galbas, Sainte-Anne, Guadeloupe. Tenue par Rolande Ibo depuis
+1995 : vêtements en madras cousus sur place et sélection de produits locaux.
 
 Construit avec **Next.js 14** (App Router, TypeScript), **Tailwind CSS v3**,
 **Framer Motion** et **Lucide React**.
 
----
-
-## 🚀 Démarrer
+## Démarrer
 
 ```bash
 npm install      # installer les dépendances
-npm run dev      # serveur de développement → http://localhost:3000
+npm run dev      # serveur de développement, http://localhost:3000
 npm run build    # build de production
 npm run start    # lancer le build de production
 npm run lint     # vérifier le code (ESLint)
 npm run format   # formater le code (Prettier)
 ```
 
----
+## À compléter avant la mise en ligne
 
-## ✏️ Avant la mise en ligne — à compléter
+Tout le contenu est dans **[`src/data/content.ts`](src/data/content.ts)**.
+Cherchez les commentaires `TODO`.
 
-**Tout le contenu se trouve dans un seul fichier :** [`src/data/content.ts`](src/data/content.ts).
-Cherchez les commentaires `TODO` (`Ctrl+F` → « TODO »). Les points à renseigner :
-
-| Élément | Où | Valeur actuelle (à remplacer) |
+| Élément | Champ | Valeur actuelle (à remplacer) |
 | --- | --- | --- |
-| **Numéro WhatsApp** | `siteConfig.phone` | `590690000000` (format international, sans `+` ni espaces) |
-| **Email de contact** | `siteConfig.email` | `contact@lacaseamadras.com` |
-| **Carte Google Maps** | `siteConfig.mapsEmbedUrl` | une URL d'intégration générique |
-| **Nom de domaine** | `siteConfig.url` | `https://lacaseamadras.com` |
-| **Crédit (réalisateur)** | `siteConfig.credit` | `votre nom` + lien |
-| **Nom de la créatrice** | `histoire.portrait.h2` | « Rolande Ibo » (à confirmer) |
-| **Horaires** | `nousTrouver.horaires.rows` | horaires indicatifs (à confirmer) |
+| Numéro WhatsApp | `siteConfig.phone` | `590690000000` (international, sans + ni espaces) |
+| Email de contact | `siteConfig.email` | `contact@lacaseamadras.com` |
+| Carte Google Maps | `siteConfig.mapsEmbedUrl` | URL d'intégration générique |
+| Nom de domaine | `siteConfig.url` | `https://lacaseamadras.com` |
+| Crédit (réalisateur) | `siteConfig.credit` | `votre nom` |
 
-### Carte Google Maps
+## Images
 
-Pour obtenir la bonne URL : Google Maps → rechercher l'adresse → **Partager** →
-**Intégrer une carte** → copier l'adresse contenue dans `src="..."` de l'iframe,
-puis la coller dans `siteConfig.mapsEmbedUrl`.
+Le site n'utilise **aucune** banque d'images (pas de picsum, pas d'Unsplash,
+pas de stock). Tant qu'une vraie photo n'est pas fournie, un **placeholder
+dessiné** (motif madras en CSS) s'affiche.
 
-### Photos
+Pour ajouter de vraies photos, déposez-les dans
+[`public/images/`](public/images/) puis renseignez le champ `image` du produit
+ou de la section dans `content.ts`. Voir [public/images/README.md](public/images/README.md)
+pour la liste des fichiers attendus et les exigences de qualité.
 
-Toutes les images sont des **placeholders** [picsum.photos](https://picsum.photos)
-(marqués `// TODO: replace with real photo …`). Pour les remplacer :
+## Design
 
-1. Déposez vos photos dans le dossier `public/` (ex. `public/photos/robe-rouge.jpg`).
-2. Dans `src/data/content.ts`, remplacez l'URL picsum par le chemin local
-   (ex. `image: "/photos/robe-rouge.jpg"`).
-3. Les composants utilisent `next/image` : pensez à garder un texte `alt`
-   descriptif pour le référencement et l'accessibilité.
+- **Trois couleurs madras** : rouge `#C0392B`, safran `#D4860A`, vert `#2E7D32`.
+- **Palette chaude** : crème `#FDF6E3`, bois `#3E2000`, lin `#EDE0CC`, voile `#FAF3E4`.
+- **Typographies** : Playfair Display (titres), Lora (texte), Inter (interface),
+  via `next/font`.
+- **Élément signature** : `<MadrasDivider />`, bande tissée en CSS pur, placée
+  entre chaque section.
+- **Animations** : Framer Motion, désactivées si l'utilisateur a activé
+  « réduire les animations » (`prefers-reduced-motion`).
 
----
-
-## 📁 Structure
+## Structure
 
 ```
 src/
-├── app/                  # pages (App Router) + robots.ts + sitemap.ts
-│   ├── page.tsx          # Accueil
-│   ├── creations/        # Galerie par catégorie
-│   ├── histoire/         # Notre histoire
-│   ├── madras/           # Page culturelle « Le madras »
-│   └── nous-trouver/     # Contact + carte
+├── app/                  pages (App Router) + robots.ts + sitemap.ts
 ├── components/
-│   ├── layout/           # Navbar, Footer
-│   ├── ui/               # MadrasBorder, WhatsAppButton, SectionReveal, …
-│   └── sections/         # Hero, ProductGrid, Story, MadrasInfo, Contact…
-├── data/content.ts       # ⭐ TOUT le contenu éditable
-└── lib/utils.ts          # helpers (cn, liens WhatsApp, format téléphone)
+│   ├── layout/           Navbar, Footer
+│   ├── ui/               MadrasDivider, Placeholder, WhatsAppButton, ...
+│   └── sections/         Hero, ProductGrid, StorySection, MadrasInfo, Contact
+├── data/content.ts       tout le contenu éditable
+└── lib/utils.ts          helpers (cn, liens WhatsApp, format téléphone)
 ```
 
----
-
-## 🎨 Design
-
-- **Palette madras** : cream, rouge, safran, vert, azur (voir `tailwind.config.ts`).
-- **Typographies** : Cormorant Garamond (titres) + Inter (texte), via `next/font`.
-- **Élément signature** : `<MadrasBorder />`, motif tissé en CSS pur.
-- **Animations** : Framer Motion, désactivées si l'utilisateur préfère
-  « réduire les animations » (`prefers-reduced-motion`).
-
----
-
-_Site léger, sans base de données, sans CMS — pensé pour être facile à mettre à
-jour et rapide à charger._
+Site léger, sans base de données ni CMS : pensé pour être facile à mettre à jour
+et rapide à charger.
