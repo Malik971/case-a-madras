@@ -1,0 +1,70 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - develop
+      - 'feature/**'
+      - 'fix/**'
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  quality:
+    name: Qualité du code
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Vérification TypeScript
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npm run lint
+
+  build:
+    name: Build Next.js
+    runs-on: ubuntu-latest
+    needs: quality
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Installer les dépendances
+        run: npm ci
+
+      - name: Build de production
+        run: npm run build
+        env:
+          # Ajoute ici tes variables d'env si besoin
+          # NEXT_PUBLIC_WHATSAPP_NUMBER: ${{ secrets.WHATSAPP_NUMBER }}
+          CI: true
+
+      - name: Vérification du build
+        run: |
+          if [ -d ".next" ]; then
+            echo "Build reussi, dossier .next present"
+          else
+            echo "Build echoue, dossier .next absent"
+            exit 1
+          fi

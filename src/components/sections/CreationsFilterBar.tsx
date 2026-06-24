@@ -5,7 +5,7 @@ import { creationsPage } from "@/data/content";
 import { cn } from "@/lib/utils";
 
 /**
- * CreationsFilterBar — sticky category tabs with scrollspy.
+ * CreationsFilterBar, sticky category tabs with scrollspy.
  * Clicking a tab smooth-scrolls to its section (native anchor + CSS
  * scroll-padding); the active tab is tracked via IntersectionObserver.
  */
@@ -24,9 +24,7 @@ export default function CreationsFilterBar() {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) {
-          setActive(visible[0].target.id);
-        }
+        if (visible[0]) setActive(visible[0].target.id);
       },
       { rootMargin: "-30% 0px -60% 0px", threshold: [0, 0.25, 0.5] },
     );
@@ -34,7 +32,7 @@ export default function CreationsFilterBar() {
     sections.forEach((s) => observer.observe(s));
 
     const onScroll = () => {
-      if (window.scrollY < 200) setActive("top");
+      if (window.scrollY < 220) setActive("top");
     };
     window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -45,9 +43,9 @@ export default function CreationsFilterBar() {
   }, [tabs]);
 
   return (
-    <div className="sticky top-[68px] z-30 -mx-4 border-y border-ink/10 bg-cream/90 px-4 backdrop-blur sm:top-[72px]">
-      <div className="mx-auto max-w-6xl">
-        <ul className="flex gap-2 overflow-x-auto py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="sticky top-[76px] z-30 border-y border-bois/10 bg-creme/95 backdrop-blur">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <ul className="no-scrollbar flex gap-2 overflow-x-auto py-3">
           {tabs.map((tab) => {
             const isActive = active === tab.target;
             return (
@@ -55,10 +53,10 @@ export default function CreationsFilterBar() {
                 <a
                   href={`#${tab.target}`}
                   className={cn(
-                    "inline-flex whitespace-nowrap rounded-full px-4 py-2 text-small font-medium transition-colors",
+                    "inline-flex whitespace-nowrap rounded-full px-4 py-2 font-ui text-sm font-medium transition-colors",
                     isActive
-                      ? "bg-rouge text-blanc"
-                      : "bg-blanc text-muted hover:bg-rouge/10 hover:text-rouge",
+                      ? "bg-rouge text-creme"
+                      : "bg-lin text-bois hover:bg-safran/20 hover:text-rouge",
                   )}
                 >
                   {tab.label}

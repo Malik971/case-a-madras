@@ -1,22 +1,30 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
+import { Inter, Lora, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import { siteConfig } from "@/data/content";
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
+  weight: ["400", "700", "900"],
   style: ["normal", "italic"],
-  variable: "--font-cormorant",
+  variable: "--font-playfair",
+  display: "swap",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  weight: ["400", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-lora",
   display: "swap",
 });
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["500", "600"],
   variable: "--font-inter",
   display: "swap",
 });
@@ -24,20 +32,17 @@ const inter = Inter({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "La Case à Madras | Boutique artisanale créole · Sainte-Anne Guadeloupe",
-    template: "%s · La Case à Madras",
+    default: "La Case à Madras | Boutique artisanale à Sainte-Anne, Guadeloupe",
+    template: "%s | La Case à Madras",
   },
   description: siteConfig.description,
   keywords: [
-    "madras",
-    "guadeloupe",
-    "artisanat",
-    "sainte-anne",
-    "vêtements créoles",
+    "madras guadeloupe",
+    "boutique artisanale sainte-anne",
+    "vêtements madras enfants",
     "tissu madras",
-    "fait main",
-    "boutique guadeloupe",
-    "village artisanal",
+    "bijoux créoles",
+    "village artisanal galbas",
   ],
   authors: [{ name: "La Case à Madras" }],
   creator: "La Case à Madras",
@@ -48,16 +53,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "fr_FR",
     siteName: "La Case à Madras",
-    title: "La Case à Madras | Boutique artisanale créole · Sainte-Anne Guadeloupe",
+    title: "La Case à Madras | Boutique artisanale à Sainte-Anne, Guadeloupe",
     description: siteConfig.description,
     url: siteConfig.url,
     images: [
       {
-        // TODO: replace with real OG image — devanture de la boutique ou créations madras (1200×630)
-        url: "https://picsum.photos/seed/madras-og/1200/630",
+        // TODO: photo réelle (1200x630) à placer dans /public/images/og-case-a-madras.jpg
+        url: "/images/og-case-a-madras.jpg",
         width: 1200,
         height: 630,
-        alt: "La Case à Madras — boutique artisanale créole à Sainte-Anne, Guadeloupe",
+        alt: "La Case à Madras, boutique artisanale créole à Sainte-Anne, Guadeloupe",
       },
     ],
   },
@@ -69,8 +74,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={`${cormorant.variable} ${inter.variable}`}>
-      <body className="bg-cream font-sans text-ink antialiased">
+    <html lang="fr" className={`${playfair.variable} ${lora.variable} ${inter.variable}`}>
+      <body className="bg-creme font-sans text-bois antialiased">
         <Navbar />
         <main>{children}</main>
         <Footer />
