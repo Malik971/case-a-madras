@@ -18,6 +18,8 @@ const config: Config = {
         bois: "#3E2000",
         lin: "#EDE0CC",
         voile: "#FAF3E4",
+        nuit: "#0D0600",
+        mer: "#0E6E8C",
       },
       fontFamily: {
         // Lora is the default body font
@@ -31,7 +33,7 @@ const config: Config = {
         title: ["clamp(1.8rem, 3vw, 2.8rem)", { lineHeight: "1.12", fontWeight: "700" }],
         heading: ["clamp(1.2rem, 2vw, 1.5rem)", { lineHeight: "1.3", fontWeight: "400" }],
         body: ["1rem", { lineHeight: "1.75" }],
-        label: ["0.8rem", { letterSpacing: "0.15em", fontWeight: "600", lineHeight: "1.4" }],
+        label: ["0.875rem", { letterSpacing: "0.15em", fontWeight: "600", lineHeight: "1.4" }],
         button: ["0.9rem", { letterSpacing: "0.08em", fontWeight: "600", lineHeight: "1" }],
       },
       maxWidth: {
@@ -43,9 +45,14 @@ const config: Config = {
           "70%": { transform: "scale(1.7)", opacity: "0" },
           "100%": { transform: "scale(1.7)", opacity: "0" },
         },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
       },
       animation: {
         "pulse-ring": "pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        marquee: "marquee 32s linear infinite",
       },
     },
   },

@@ -25,6 +25,8 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    /* Prevent any horizontal scroll on mobile */
+    overflow-x: hidden;
   }
 
   h1,

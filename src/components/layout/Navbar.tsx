@@ -4,22 +4,22 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { X } from "lucide-react";
-import MadrasDivider from "@/components/ui/MadrasDivider";
+import { Instagram, Menu, X } from "lucide-react";
+import CartIconButton from "@/components/cart/CartIconButton";
 import WhatsAppIcon from "@/components/ui/WhatsAppIcon";
 import { navLinks, siteConfig, whatsappMessages } from "@/data/content";
 import { buildWhatsAppUrl, cn } from "@/lib/utils";
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const shouldReduceMotion = useReducedMotion();
+  const reduce = useReducedMotion();
 
   const waUrl = buildWhatsAppUrl(siteConfig.phone, whatsappMessages.commander);
+  // Pages with a dark hero behind the navbar (light text needed at the top)
+  const darkHero = pathname === "/" || pathname === "/histoire";
 
-  // Solid creme + shadow after 80px of scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
     onScroll();
@@ -27,7 +27,6 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll while the drawer is open
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
@@ -35,153 +34,147 @@ export default function Navbar() {
     };
   }, [open]);
 
-  // Close the drawer whenever the route changes
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+  useEffect(() => setOpen(false), [pathname]);
 
-  // Solid treatment: when scrolled, off-home, or drawer open
-  const solid = scrolled || !isHome || open;
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
+  const textClass = scrolled && !open ? "text-bois" : darkHero || open ? "text-creme" : "text-bois";
+
   return (
-    <header
-      className={cn(
-        "fixed inset-x-0 top-0 z-40 transition-all duration-300",
-        solid ? "bg-creme shadow-md" : "bg-transparent",
-      )}
-    >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
-        {/* Logo */}
-        <Link href="/" className="leading-tight transition-opacity hover:opacity-80">
-          <span className="block font-display text-2xl font-bold italic text-rouge">
+    <>
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-40 transition-all duration-300",
+          scrolled && !open ? "bg-creme/95 shadow-md backdrop-blur" : "bg-transparent",
+        )}
+      >
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 sm:px-8 lg:px-12">
+          {/* Logo */}
+          <Link
+            href="/"
+            className="font-display text-base font-bold italic leading-none text-rouge transition-opacity hover:opacity-80 sm:text-2xl"
+          >
             La Case à Madras
-          </span>
-          <span className={cn("block font-sans text-xs", solid ? "text-bois/70" : "text-creme/90")}>
-            Sainte-Anne, Guadeloupe
-          </span>
-        </Link>
+          </Link>
 
-        {/* Desktop links (center) */}
-        <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-7 lg:flex">
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className={cn(
-                  "font-ui text-sm font-medium transition-colors",
-                  isActive(link.href)
-                    ? "text-rouge"
-                    : solid
-                      ? "text-bois hover:text-rouge"
-                      : "text-creme hover:text-safran",
-                )}
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
+          {/* Desktop links */}
+          <ul className="hidden items-center gap-7 lg:flex">
+            {navLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className={cn(
+                    "font-ui text-sm font-medium transition-colors hover:text-rouge",
+                    isActive(link.href) ? "text-rouge" : textClass,
+                  )}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
 
-        {/* Desktop CTA (right) */}
-        <a
-          href={waUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-primary hidden lg:inline-flex"
-        >
-          <WhatsAppIcon size={16} />
-          Commander
-        </a>
-
-        {/* Mobile hamburger */}
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Ouvrir le menu"
-          aria-expanded={open}
-          className="relative flex h-10 w-10 items-center justify-center lg:hidden"
-        >
-          <span className="sr-only">Menu</span>
-          <div className="flex w-6 flex-col items-center gap-[5px]">
-            <span className={cn("block h-0.5 w-6 rounded-full", solid ? "bg-bois" : "bg-creme")} />
-            <span className={cn("block h-0.5 w-6 rounded-full", solid ? "bg-bois" : "bg-creme")} />
-            <span className={cn("block h-0.5 w-6 rounded-full", solid ? "bg-bois" : "bg-creme")} />
+          {/* Right cluster */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            <CartIconButton className={textClass} />
+            <a
+              href={waUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden rounded-full bg-rouge px-5 py-2.5 font-ui text-button uppercase text-creme transition-colors hover:bg-safran lg:inline-flex"
+            >
+              Commander
+            </a>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-label="Ouvrir le menu"
+              className={cn("flex h-11 w-11 items-center justify-center lg:hidden", textClass)}
+            >
+              <Menu className="h-6 w-6" />
+            </button>
           </div>
-        </button>
-      </nav>
+        </nav>
+      </header>
 
-      {/* Signature thin madras band, always visible at bottom of nav */}
-      <MadrasDivider variant="thin" />
-
-      {/* Mobile drawer (slides in from the right) */}
+      {/* Full-screen overlay menu (mobile) */}
       <AnimatePresence>
         {open && (
-          <>
-            <motion.div
-              key="drawer-backdrop"
-              className="fixed inset-0 z-40 bg-bois/50 lg:hidden"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.25 }}
-              onClick={() => setOpen(false)}
-            />
-            <motion.aside
-              key="drawer-panel"
-              className="fixed right-0 top-0 z-50 flex h-full w-[82%] max-w-sm flex-col bg-creme shadow-md lg:hidden"
-              initial={{ x: shouldReduceMotion ? 0 : "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: shouldReduceMotion ? 0 : "100%" }}
-              transition={{ duration: shouldReduceMotion ? 0 : 0.3, ease: "easeInOut" }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[55] flex flex-col bg-nuit/95 backdrop-blur-lg lg:hidden"
+          >
+            <div className="flex items-center justify-between px-5 py-4">
+              <span className="font-display text-base font-bold italic text-creme">
+                La Case à Madras
+              </span>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                aria-label="Fermer le menu"
+                className="flex h-11 w-11 items-center justify-center text-creme"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <motion.ul
+              initial="hidden"
+              animate="show"
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: reduce ? 0 : 0.07, delayChildren: 0.1 } },
+              }}
+              className="flex flex-1 flex-col items-center justify-center gap-6"
             >
-              <div className="flex items-center justify-between px-6 py-5">
-                <span className="font-display text-xl font-bold italic text-rouge">
-                  La Case à Madras
-                </span>
-                <button
-                  type="button"
-                  onClick={() => setOpen(false)}
-                  aria-label="Fermer le menu"
-                  className="flex h-10 w-10 items-center justify-center text-bois"
+              {navLinks.map((link) => (
+                <motion.li
+                  key={link.href}
+                  variants={{
+                    hidden: reduce ? { opacity: 1 } : { opacity: 0, y: 12 },
+                    show: { opacity: 1, y: 0 },
+                  }}
                 >
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
+                  <Link
+                    href={link.href}
+                    className={cn(
+                      "font-display text-3xl italic transition-colors",
+                      isActive(link.href) ? "text-safran" : "text-creme hover:text-safran",
+                    )}
+                  >
+                    {link.label}
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
 
-              <MadrasDivider variant="thin" />
-
-              <ul className="flex flex-1 flex-col gap-2 px-6 py-6">
-                {navLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className={cn(
-                        "block py-2 font-display text-2xl italic transition-colors",
-                        isActive(link.href) ? "text-rouge" : "text-bois hover:text-rouge",
-                      )}
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="px-6 pb-8">
-                <a
-                  href={waUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-whatsapp w-full"
-                >
-                  <WhatsAppIcon size={18} />
-                  Commander par WhatsApp
-                </a>
-              </div>
-            </motion.aside>
-          </>
+            {/* Socials */}
+            <div className="flex items-center justify-center gap-4 pb-10">
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="WhatsApp"
+                className="flex h-12 w-12 items-center justify-center rounded-full bg-vert text-creme"
+              >
+                <WhatsAppIcon size={22} />
+              </a>
+              <a
+                href={siteConfig.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="flex h-12 w-12 items-center justify-center rounded-full border border-creme/30 text-creme"
+              >
+                <Instagram className="h-5 w-5" />
+              </a>
+            </div>
+          </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

@@ -1,9 +1,10 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import WhatsAppIcon from "@/components/ui/WhatsAppIcon";
 import { siteConfig, whatsappMessages } from "@/data/content";
-import { buildWhatsAppUrl } from "@/lib/utils";
+import { buildWhatsAppUrl, cn } from "@/lib/utils";
 
 /**
  * WhatsAppButton, floating CTA fixed bottom-right on every page.
@@ -12,11 +13,19 @@ import { buildWhatsAppUrl } from "@/lib/utils";
  */
 export default function WhatsAppButton() {
   const shouldReduceMotion = useReducedMotion();
+  const pathname = usePathname();
   const href = buildWhatsAppUrl(siteConfig.phone, whatsappMessages.general);
+
+  // On /creations there is a sticky WhatsApp bar on mobile, so lift the
+  // floating button above it (only on mobile; the bar is hidden on lg+).
+  const isCreations = pathname.startsWith("/creations");
 
   return (
     <motion.div
-      className="fixed bottom-6 right-6 z-50"
+      className={cn(
+        "fixed right-4 z-50 sm:right-6",
+        isCreations ? "bottom-24 lg:bottom-6" : "bottom-4 sm:bottom-6",
+      )}
       initial={shouldReduceMotion ? false : { scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: shouldReduceMotion ? 0 : 2, duration: 0.4, ease: "backOut" }}

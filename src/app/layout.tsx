@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import CartLayer from "@/components/cart/CartLayer";
 import { siteConfig } from "@/data/content";
 
 const playfair = Playfair_Display({
@@ -80,6 +81,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <main>{children}</main>
         <Footer />
         <WhatsAppButton />
+        <CartLayer />
       </body>
     </html>
   );

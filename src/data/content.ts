@@ -1,19 +1,13 @@
 /**
  * ====================================================================
- *  LA CASE A MADRAS, CONTENU DU SITE
+ *  LA CASE A MADRAS, CONTENU EDITORIAL DU SITE
  * ====================================================================
- *  Tout le texte et les donnees du site sont reunis ici.
- *  Pour modifier le site, il suffit (dans la plupart des cas) d'editer
- *  ce seul fichier, pas besoin de toucher au code.
- *
- *  A COMPLETER AVANT MISE EN LIGNE (cherchez "TODO") :
- *    - numero WhatsApp (siteConfig.phone)
- *    - email de contact (siteConfig.email)
- *    - URL d'integration Google Maps (siteConfig.mapsEmbedUrl)
- *    - nom du realisateur du site (siteConfig.credit)
- *    - vraies photos a deposer dans /public/images (voir le README de ce dossier)
+ *  Tout le texte du site est ici. Les photos sont dans src/data/images.ts
+ *  et le catalogue produits dans src/data/products.ts.
  * ====================================================================
  */
+
+import { boutique, femme, magasin, plage, rolande, tissus } from "@/data/images";
 
 /* --------------------------------------------------------------------
  *  CONFIG GENERALE ET COORDONNEES
@@ -26,10 +20,8 @@ export const siteConfig = {
   description:
     "Vêtements madras faits main, tissus, bijoux créoles et cadeaux authentiques. Boutique tenue par Rolande Ibo au Village Artisanal des Galbas, Sainte-Anne, depuis 1995.",
 
-  // TODO: remplacer par le vrai numero WhatsApp (format international, sans + ni espaces)
-  phone: "590690000000",
-  // TODO: remplacer par le vrai email de contact
-  email: "contact@lacaseamadras.com",
+  phone: "590690761270",
+  email: "ibo.rolande@orange.fr",
 
   address: {
     box: "Box 7",
@@ -40,21 +32,21 @@ export const siteConfig = {
     oneLine: "Box 7, Village Artisanal des Galbas, 97180 Sainte-Anne, Guadeloupe",
   },
 
-  // TODO: remplacer par l'URL d'integration officielle
-  // (Google Maps > Partager > Integrer une carte > copier l'adresse du src de l'iframe)
   mapsEmbedUrl:
-    "https://maps.google.com/maps?q=Village%20Artisanal%20des%20Galbas%2C%20Sainte-Anne%2C%20Guadeloupe&t=&z=14&ie=UTF8&iwloc=&output=embed",
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d670.216283138639!2d-61.39153950133412!3d16.224051821129727!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8c134b895084c00d%3A0xab3d891ff890c3b!2sLe%20Village%20Artisanal!5e1!3m2!1sfr!2sfr!4v1782310764063!5m2!1sfr!2sfr",
   mapsLinkUrl:
     "https://www.google.com/maps/search/?api=1&query=Village+Artisanal+des+Galbas+Sainte-Anne+Guadeloupe",
+  // Coordonnees du Village Artisanal des Galbas (pour la carte interactive)
+  coords: { lat: 16.224052, lng: -61.39154 },
 
-  // TODO: remplacer par le vrai nom de domaine une fois en ligne
   url: "https://lacaseamadras.com",
 
-  // TODO: remplacer par votre nom et votre lien
   credit: {
-    name: "votre nom",
+    name: "Ibo Malik",
     url: "#",
   },
+
+  instagramUrl: "#", // TODO: lien Instagram quand le compte sera cree
 } as const;
 
 /* --------------------------------------------------------------------
@@ -79,88 +71,74 @@ export const navLinks = [
   { label: "Nous trouver", href: "/nous-trouver" },
 ] as const;
 
-/* --------------------------------------------------------------------
- *  TYPES
- * ------------------------------------------------------------------ */
 export type IconName = "Shirt" | "Baby" | "Home" | "Droplets" | "Flame" | "Info" | "Wind";
-
-export interface Product {
-  name: string;
-  /** Affiche le badge "sur commande" si vrai */
-  surCommande?: boolean;
-  /** TODO: chemin d'une vraie photo dans /public/images (sinon placeholder) */
-  image?: string;
-  alt?: string;
-}
-
-export interface Category {
-  id: string;
-  eyebrow: string;
-  h2: string;
-  desc: string;
-  products: Product[];
-}
 
 /* --------------------------------------------------------------------
  *  PAGE, ACCUEIL
  * ------------------------------------------------------------------ */
 export const home = {
   hero: {
-    label: "Village Artisanal des Galbas, Sainte-Anne, Guadeloupe",
-    h1: "Le madras cousu avec cœur, depuis 1995",
-    body: "Vêtements faits main, tissus traditionnels, cadeaux authentiques. La boutique de Rolande Ibo au cœur du village artisanal.",
-    ctaPrimary: { label: "Découvrir nos créations", href: "/creations" },
-    ctaSecondary: { label: "Commander par WhatsApp" },
-    // TODO: photo réelle à déposer dans /public/images/boutique-interieur.jpg
-    imageCaption: "Intérieur de la boutique La Case à Madras",
+    label: "Village Artisanal des Galbas · Sainte-Anne",
+    titleLines: ["La Case", "à Madras"],
+    titleAccent: "depuis 1995",
+    body: "Robes cousues main, tissus, bijoux et cadeaux. L'âme de la Guadeloupe en un seul endroit.",
+    ctaPrimary: { label: "Voir les produits", href: "/creations" },
+    ctaSecondary: { label: "Commander sur WhatsApp" },
+    image: boutique.exterieur,
+    imageAlt: "Devanture de la boutique La Case à Madras au Village Artisanal des Galbas",
   },
 
-  troisRaisons: {
-    label: "Ce qui nous distingue",
-    h2: "Une boutique qui a une âme",
-    cards: [
-      {
-        title: "Couture sur place",
-        text: "Rolande et son équipe fabriquent ici même les vêtements en madras. Chaque pièce est coupée, assemblée et finie à la main.",
-      },
-      {
-        title: "Fournisseurs locaux",
-        text: "Nos produits viennent de toute la Guadeloupe. Tissu, bijoux, sandales, livres : nous sélectionnons ce qui est vrai.",
-      },
-      {
-        title: "Plus de 26 ans de confiance",
-        text: "Présente depuis l'ouverture du village en 1995. Des milliers de clients, des milliers de sourires.",
-      },
-    ],
+  featured: {
+    label: "À la une",
+    h2: "Nos pièces du moment",
   },
 
-  produitsPhares: {
-    label: "La boutique en un coup d'œil",
-    h2: "De quoi habiller toute la famille",
-    cards: [
-      { label: "Robes madras", href: "/creations#couture" },
-      { label: "Tissu au mètre", href: "/creations#tissu" },
-      { label: "Peluches madras", href: "/creations#peluches" },
-      { label: "Bijoux créoles", href: "/creations#bijoux" },
-      { label: "Livres", href: "/creations#livres" },
-      { label: "Sandales Guadeloupe", href: "/creations#sandales" },
-    ],
-    cta: { label: "Voir tous nos produits", href: "/creations" },
+  visite: {
+    label: "Entrez dans la boutique",
+    h2: "Visitez La Case à Madras",
+    lead: "Découvrez nos rayons depuis chez vous. Prochainement en 360 complet.",
+    link: { label: "Venez nous voir en vrai", href: "/nous-trouver" },
   },
 
-  savoirFaire: {
+  video: {
+    label: "La boutique en vidéo",
+    h2: "Un avant-goût de l'ambiance",
+    title: "Vidéo de la boutique La Case à Madras",
+    note: "Tournée dans la boutique, à Sainte-Anne",
+  },
+
+  ame: {
     label: "Notre savoir-faire",
-    h2: "De nos mains à vos enfants",
-    body: "Chaque robe pour petite fille, chaque ensemble de baptême que vous trouvez ici est passé entre les mains de Rolande et de son équipe. Elles cousent, ajustent, brodent. Ce n'est pas de la série. C'est de l'artisanat vivant.",
+    h2: "Cousues ici, par notre équipe",
+    body1:
+      "Chaque robe, chaque ensemble sort de nos mains. Rolande et son équipe cousent sur place depuis l'ouverture du village en 1995.",
+    body2:
+      "Vous cherchez une tenue pour un baptême, un mariage, le carnaval ? Nous créons sur mesure.",
     cta: { label: "Découvrir notre histoire", href: "/histoire" },
-    // TODO: photo réelle à déposer dans /public/images/atelier-couture.jpg
-    imageCaption: "Femme en tenue madras traditionnelle dans l'atelier",
+    images: magasin,
+    imageAlt: "Intérieur de la boutique La Case à Madras, vue panoramique",
+  },
+
+  catalogue: {
+    label: "La boutique",
+    h2: "Tout ce que vous trouverez ici",
+  },
+
+  ile: {
+    quoteLines: [
+      "La Guadeloupe ne se raconte pas.",
+      "Elle se porte, elle se vit,",
+      "elle se ramène dans sa valise.",
+    ],
+    attribution: "La Case à Madras, Sainte-Anne",
+    image: plage[0],
+    imageAlt: "Plage de Sainte-Anne, Guadeloupe",
   },
 
   ctaBande: {
-    h2: "Un cadeau venu de Guadeloupe ?",
-    body: "Vous repartez bientôt ou vous êtes déjà loin ? Écrivez-nous sur WhatsApp. Nous expédions en Guadeloupe et en métropole.",
-    button: "Envoyer un message",
+    h2: "Vous ne pouvez pas vous déplacer ?",
+    body: "Nous expédions en Guadeloupe et en France métropolitaine. Écrivez-nous, nous répondons avec photos et disponibilités.",
+    button: "Écrire sur WhatsApp",
   },
 } as const;
 
@@ -169,123 +147,10 @@ export const home = {
  * ------------------------------------------------------------------ */
 export const creationsPage = {
   label: "La boutique",
-  h1: "Nos créations et nos produits",
-  lead: "Du tissu brut à la robe finie, des bijoux aux sandales : tout ce qui fait la Guadeloupe, rassemblé en un seul endroit.",
-  tabs: [
-    { label: "Tout", target: "top" },
-    { label: "Couture", target: "couture" },
-    { label: "Tissu", target: "tissu" },
-    { label: "Peluches", target: "peluches" },
-    { label: "Bijoux", target: "bijoux" },
-    { label: "Linge", target: "linge" },
-    { label: "Sandales", target: "sandales" },
-    { label: "Livres", target: "livres" },
-    { label: "Mugs", target: "livres" },
-  ],
-  stickyBar: "Commander par WhatsApp",
+  h1: "Nos créations",
+  lead: "Du tissu brut à la robe finie, des bijoux aux livres : tout ce qui fait la Guadeloupe, rassemblé en un seul endroit. Ajoutez vos coups de cœur au panier, puis commandez par WhatsApp.",
+  stickyBar: "Voir mon panier",
 } as const;
-
-export const categories: Category[] = [
-  {
-    id: "couture",
-    eyebrow: "Fait main par notre équipe",
-    h2: "Vêtements en madras",
-    desc: "Robes, ensembles, tuniques cousus ici. Tailles bébé à adulte. Commandes sur mesure acceptées pour baptêmes et mariages.",
-    products: [
-      { name: "Robe fille madras rouge-or" },
-      { name: "Robe fille madras vert-bleu" },
-      { name: "Ensemble bébé 2 pièces" },
-      { name: "Tunique femme col V" },
-      { name: "Robe femme longue madras" },
-      { name: "Chemise homme madras" },
-      { name: "Ensemble garçon haut-short" },
-      // NOTE: pièces de fête marquées "sur commande" (desc mentionne baptêmes et mariages).
-      { name: "Robe baptême blanche-or", surCommande: true },
-      { name: "Tenue carnaval enfant", surCommande: true },
-      { name: "Jupe femme madras", surCommande: true },
-    ],
-  },
-  {
-    id: "tissu",
-    eyebrow: "La matière première",
-    h2: "Tissu madras traditionnel",
-    desc: "Vendu au mètre, coton et soie tissés aux couleurs des Antilles. Choisissez votre coloris.",
-    products: [
-      { name: "Madras rouge-or" },
-      { name: "Madras vert-bleu" },
-      { name: "Madras orange-rose" },
-      { name: "Madras bleu-jaune" },
-      { name: "Madras noir-or" },
-      { name: "Madras violet-safran" },
-    ],
-  },
-  {
-    id: "peluches",
-    eyebrow: "Pour les tout-petits",
-    h2: "Peluches et jouets en madras",
-    desc: "Ours, poupées et animaux habillés en tissu madras. Le cadeau parfait pour rapporter de Guadeloupe.",
-    products: [
-      { name: "Ours madras" },
-      { name: "Poupée créole" },
-      { name: "Éléphant madras" },
-      { name: "Lapin madras" },
-    ],
-  },
-  {
-    id: "bijoux",
-    eyebrow: "Se parer à la créole",
-    h2: "Bijoux et accessoires",
-    desc: "Colliers, boucles, bracelets et chouchous madras. Des pièces sélectionnées auprès d'artisans de l'île.",
-    products: [
-      { name: "Collier créole doré" },
-      { name: "Boucles anneaux" },
-      { name: "Bracelet jonc" },
-      { name: "Chouchou madras rouge" },
-      { name: "Chouchou madras vert" },
-      { name: "Bague créole" },
-    ],
-  },
-  {
-    id: "linge",
-    eyebrow: "La Guadeloupe chez vous",
-    h2: "Nappes, tabliers et serviettes",
-    desc: "Nappes en madras, sets de table, tabliers et serviettes brodées. Pour que le repas soit aussi une fête.",
-    products: [
-      { name: "Nappe 160x160 madras" },
-      { name: "Nappe 200x200 madras" },
-      { name: "Set de table 4 pièces" },
-      { name: "Tablier madras" },
-      { name: "Serviette brodée Guadeloupe" },
-      { name: "Set cadeau linge" },
-    ],
-  },
-  {
-    id: "sandales",
-    eyebrow: "Du pied à l'épaule",
-    h2: "Sandales et sacs Guadeloupe",
-    desc: "Sandales brodées à la main et sacs souvenir. L'accessoire incontournable du voyageur.",
-    products: [
-      { name: "Sandales brodées taille S" },
-      { name: "Sandales brodées taille M" },
-      { name: "Sandales brodées taille L" },
-      { name: "Sac Guadeloupe" },
-    ],
-  },
-  {
-    id: "livres",
-    eyebrow: "À rapporter dans sa valise",
-    h2: "Livres, mugs et souvenirs",
-    desc: "Livres de cuisine créole, contes pour enfants, mugs et cartes postales. Pour prolonger la Guadeloupe après le retour.",
-    products: [
-      { name: "Livre cuisine créole" },
-      { name: "Contes antillais enfants" },
-      { name: "Guide Guadeloupe" },
-      { name: "Mug Guadeloupe bleu" },
-      { name: "Mug Guadeloupe rouge" },
-      { name: "Cartes postales" },
-    ],
-  },
-];
 
 /* --------------------------------------------------------------------
  *  PAGE, NOTRE HISTOIRE
@@ -293,21 +158,38 @@ export const categories: Category[] = [
 export const histoire = {
   header: {
     h1: "Depuis 1995, le madras a un visage",
-    // TODO: photo réelle à déposer dans /public/images/rolande-portrait-large.jpg
-    imageCaption: "Couturière en tenue madras traditionnelle, sourire chaleureux",
+    image: femme[0],
+    imageAlt: "Femme en tenue madras traditionnelle",
   },
   portrait: {
     label: "La créatrice",
     h2: "Rolande Ibo",
-    // TODO: photo de Rolande dans la boutique, format vertical 3:4
-    imageCaption: "Portrait de Rolande Ibo dans la boutique",
+    images: rolande,
+    imageAlt: "Portrait de Rolande Ibo dans la boutique",
     paragraphs: [
       "Quand le Village Artisanal de Sainte-Anne a ouvert au milieu des années 1990, Rolande était là. Box 7. La Case à Madras. Depuis, elle n'a jamais quitté cette place.",
       "Couturière de métier, elle confectionne avec son équipe les vêtements en madras vendus dans la boutique. Robes de petites filles, ensembles de baptême, tuniques pour femmes : chaque pièce est coupée et cousue ici, à Sainte-Anne.",
-      // NOTE: "sourced" du brief corrigé en "sélectionne" (français correct).
       "Rolande sélectionne aussi les meilleurs produits auprès de fournisseurs de toute la Guadeloupe. Bijoux, sandales, tissus, peluches : rien n'entre dans la boutique sans avoir été choisi avec soin.",
     ],
   },
+  timeline: [
+    {
+      year: "1995",
+      text: "Ouverture du Village Artisanal de Sainte-Anne. Rolande ouvre La Case à Madras, box 7.",
+    },
+    {
+      year: "2000",
+      text: "La boutique s'agrandit. Rolande forme une équipe de couturières. La production double.",
+    },
+    {
+      year: "2010",
+      text: "Nouvelle collection de peluches et de linge de maison. Des clients de métropole commandent par téléphone.",
+    },
+    {
+      year: "2025",
+      text: "La Case à Madras s'ouvre au numérique. Commandez depuis n'importe où.",
+    },
+  ],
   stats: [
     { value: "26+", label: "ans de présence" },
     { value: "100%", label: "couture faite main" },
@@ -317,8 +199,8 @@ export const histoire = {
     label: "Le cadre",
     h2: "Au cœur du Village Artisanal",
     body: "Le Village Artisanal des Galbas est à cinq minutes à pied de la plage de Sainte-Anne. C'est l'un des premiers endroits que les visiteurs découvrent en arrivant dans le sud de la Guadeloupe. La Case à Madras y est depuis le premier jour.",
-    // TODO: photo de l'extérieur du village ou de la devanture
-    imageCaption: "Extérieur du Village Artisanal des Galbas",
+    image: boutique.exterieur,
+    imageAlt: "Le Village Artisanal des Galbas",
   },
 } as const;
 
@@ -336,8 +218,8 @@ export const madrasPage = {
       "Le tissu madras vient de la ville de Madras, aujourd'hui Chennai, sur la côte de Coromandel en Inde. Les colons britanniques l'ont importé aux Antilles au XVIIe siècle, où il a trouvé son terrain de jeu définitif : les couleurs vives d'une île qui ne fait rien à moitié.",
       "Les travailleurs indiens arrivés en Guadeloupe après l'abolition de l'esclavage en 1848 ont profondément ancré le madras dans la culture locale. Aujourd'hui, il est l'emblème textile des Antilles.",
     ],
-    // TODO: photo réelle à déposer dans /public/images/tissu-madras-gros-plan.jpg
-    imageCaption: "Gros plan sur un tissu madras traditionnel",
+    images: tissus,
+    imageAlt: "Gros plan sur un tissu madras traditionnel",
   },
 
   couleurs: {
@@ -451,6 +333,5 @@ export const footer = {
     { label: "Le madras", href: "/madras" },
     { label: "Nous trouver", href: "/nous-trouver" },
   ],
-  // NOTE: année dynamique (le brief indiquait 2025, gardé à jour automatiquement).
   copyright: `(c) ${new Date().getFullYear()} La Case à Madras, Sainte-Anne`,
 } as const;

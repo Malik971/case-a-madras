@@ -43,7 +43,7 @@ export default function MadrasInfoPage() {
       <MadrasInfo />
 
       {/* LES TROIS COULEURS */}
-      <section className="bg-lin py-20 lg:py-28">
+      <section className="bg-lin py-12 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <SectionReveal className="max-w-2xl">
             <h2 className="text-title text-bois">{couleurs.h2}</h2>
@@ -75,7 +75,7 @@ export default function MadrasInfoPage() {
       </section>
 
       {/* COMMENT LE PORTER */}
-      <section className="bg-creme py-20 lg:py-28">
+      <section className="bg-creme py-12 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <SectionReveal>
             <h2 className="text-title text-bois">{porter.h2}</h2>
@@ -99,7 +99,7 @@ export default function MadrasInfoPage() {
       <MadrasDivider />
 
       {/* ENTRETIEN */}
-      <section className="bg-lin py-20 lg:py-28">
+      <section className="bg-lin py-12 sm:py-16 lg:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <SectionReveal>
             <h2 className="text-title text-bois">{entretien.h2}</h2>
