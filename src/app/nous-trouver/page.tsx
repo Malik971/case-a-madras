@@ -32,7 +32,7 @@ export default function NousTrouverPage() {
       <MadrasDivider />
 
       {/* ACCES */}
-      <section className="bg-creme py-16 lg:py-20">
+      <section className="bg-creme py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <SectionReveal className="rounded-xl bg-lin p-7">

@@ -38,3 +38,10 @@ export function formatPhoneDisplay(phone: string): string {
   }
   return `+${digits}`;
 }
+
+/**
+ * Tiny, valid base64 placeholder used as blurDataURL on non-priority images.
+ * (1x1 transparent PNG, so the blur-up fades from the warm container colour.)
+ */
+export const BLUR_DATA_URL =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==";

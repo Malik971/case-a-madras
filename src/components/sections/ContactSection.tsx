@@ -1,4 +1,5 @@
 import { Clock, ExternalLink, Mail, MapPin, Package, Phone } from "lucide-react";
+import MapEmbed from "@/components/sections/MapEmbed";
 import SectionReveal from "@/components/ui/SectionReveal";
 import WhatsAppIcon from "@/components/ui/WhatsAppIcon";
 import { nousTrouver, siteConfig, whatsappMessages } from "@/data/content";
@@ -92,17 +93,9 @@ export default function ContactSection() {
           </div>
         </SectionReveal>
 
-        {/* RIGHT, map (2/5) */}
+        {/* RIGHT, interactive map (2/5) */}
         <SectionReveal delay={0.1} className="lg:col-span-2">
-          <div className="overflow-hidden rounded-xl shadow-sm">
-            <iframe
-              src={siteConfig.mapsEmbedUrl}
-              title="Carte, La Case à Madras, Sainte-Anne"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="block h-[280px] w-full border-0 sm:h-[420px]"
-            />
-          </div>
+          <MapEmbed />
           <a
             href={siteConfig.mapsLinkUrl}
             target="_blank"
